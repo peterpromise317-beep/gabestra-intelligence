@@ -9,7 +9,7 @@ A responsive React + TypeScript + Vite website concept for **GABESTRA Intelligen
 ## Included
 
 - Responsive landing page and mobile navigation
-- Services overview with dedicated Website Security, Digital Account Protection, Security Awareness, Vulnerability Management and Incident Readiness pages
+- Services overview with dedicated Website Security, Digital Account Protection, Security Awareness, Vulnerability Management Incident Readiness and Cybersecurity Consulting pages
 - Security tools preview (clearly marked as in development)
 - Responsible-security principles
 - Contact section
@@ -22,6 +22,7 @@ A responsive React + TypeScript + Vite website concept for **GABESTRA Intelligen
 - `/services/security-awareness` — Security Awareness service page
 - `/services/vulnerability-management` — Vulnerability Management service page
 - `/services/incident-readiness` — Incident Readiness service page
+- `/services/cybersecurity-consulting` — Cybersecurity Consulting service page
 
 ## Requirements
 
