@@ -100,6 +100,8 @@ const tools = [
 
 function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formStatus, setFormStatus] = useState("");
 
   const closeMenu = () => setMenuOpen(false);
 
@@ -275,11 +277,84 @@ function HomePage() {
               <h2>Let's make your<br /><em>digital space safer.</em></h2>
               <p>Have a question or want to discuss a defensive cybersecurity project? Reach out to start the conversation.</p>
             </div>
-            <a className="contact-card" href="mailto:YOUR_EMAIL@example.com">
-              <span className="contact-card-label">CONTACT GABESTRA</span>
-              <span className="contact-card-main">Tell us what<br />you want to protect.</span>
-              <span className="contact-card-bottom">YOUR_EMAIL@example.com <ArrowUpRightIcon /></span>
-            </a>
+            <form
+              className="enquiry-form"
+              onSubmit={async (event) => {
+                event.preventDefault();
+                const form = event.currentTarget;
+                const formData = new FormData(form);
+                setIsSubmitting(true);
+                setFormStatus("");
+
+                try {
+                  const response = await fetch("https://qmjofrmndygghmxhrtuf.supabase.co/functions/v1/submit-enquiry", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      "apikey": "sb_publishable_BmyBA6Og7KgN-3Q7AukFcw_JuE2AIYb",
+                    },
+                    body: JSON.stringify({
+                      full_name: formData.get("full_name"),
+                      email: formData.get("email"),
+                      service_interest: formData.get("service_interest"),
+                      message: formData.get("message"),
+                      website: formData.get("website"),
+                    }),
+                  });
+                  const result = await response.json();
+                  if (!response.ok) throw new Error(result.error || "We could not submit your enquiry.");
+                  form.reset();
+                  setFormStatus("Thank you. Your enquiry has been received.");
+                } catch (error) {
+                  setFormStatus(error instanceof Error ? error.message : "Something went wrong. Please try again.");
+                } finally {
+                  setIsSubmitting(false);
+                }
+              }}
+            >
+              <div className="enquiry-form-heading">
+                <span className="contact-card-label">CONTACT GABESTRA</span>
+                <span className="contact-card-main">Tell us what you want to protect.</span>
+              </div>
+              <div className="enquiry-fields">
+                <label>
+                  Your name
+                  <input name="full_name" type="text" minLength={2} maxLength={100} autoComplete="name" required placeholder="Full name" />
+                </label>
+                <label>
+                  Email address
+                  <input name="email" type="email" maxLength={254} autoComplete="email" required placeholder="you@example.com" />
+                </label>
+                <label className="enquiry-full">
+                  Service of interest
+                  <select name="service_interest" required defaultValue="">
+                    <option value="" disabled>Select a service</option>
+                    <option>Website Security</option>
+                    <option>Digital Account Protection</option>
+                    <option>Security Awareness</option>
+                    <option>Vulnerability Management</option>
+                    <option>Incident Readiness</option>
+                    <option>Cybersecurity Consulting</option>
+                    <option>Other</option>
+                  </select>
+                </label>
+                <label className="enquiry-full">
+                  How can we help?
+                  <textarea name="message" minLength={20} maxLength={3000} required rows={4} placeholder="Briefly tell us what you would like help with (20–3,000 characters)." />
+                </label>
+                <label className="enquiry-honeypot" aria-hidden="true">
+                  Leave this field empty
+                  <input name="website" type="text" tabIndex={-1} autoComplete="off" />
+                </label>
+              </div>
+              <div className="enquiry-form-bottom">
+                <button className="button button-primary enquiry-submit" type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? "Sending..." : "Send enquiry"} <ArrowRight size={17} />
+                </button>
+                <p className={formStatus.startsWith("Thank you") ? "enquiry-status success" : "enquiry-status"} role="status" aria-live="polite">{formStatus}</p>
+              </div>
+              <small className="enquiry-privacy">Please do not include passwords, account credentials or other sensitive information.</small>
+            </form>
           </div>
         </section>
       </main>
