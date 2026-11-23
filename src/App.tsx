@@ -5,6 +5,7 @@ import AccountProtection from "./pages/AccountProtection";
 import SecurityAwareness from "./pages/SecurityAwareness";
 import VulnerabilityManagement from "./pages/VulnerabilityManagement";
 import IncidentReadiness from "./pages/IncidentReadiness";
+import CybersecurityConsulting from "./pages/CybersecurityConsulting";
 import {
   ArrowDownRight,
   ArrowRight,
@@ -211,7 +212,7 @@ function HomePage() {
                     <h3>{service.title}</h3>
                     <p>{service.description}</p>
                   </div>
-                  <a href={service.number === "01" ? "/services/website-security" : service.number === "02" ? "/services/account-protection" : service.number === "03" ? "/services/security-awareness" : service.number === "04" ? "/services/vulnerability-management" : service.number === "05" ? "/services/incident-readiness" : "#contact"} className="card-link" aria-label={`Ask about ${service.title}`}>
+                  <a href={service.number === "01" ? "/services/website-security" : service.number === "02" ? "/services/account-protection" : service.number === "03" ? "/services/security-awareness" : service.number === "04" ? "/services/vulnerability-management" : service.number === "05" ? "/services/incident-readiness" : service.number === "06" ? "/services/cybersecurity-consulting" : "#contact"} className="card-link" aria-label={`Ask about ${service.title}`}>
                     Discuss this service <ArrowUpRightIcon />
                   </a>
                 </article>
@@ -319,6 +320,7 @@ export default function App() {
         <Route path="/services/security-awareness" element={<SecurityAwareness />} />
         <Route path="/services/vulnerability-management" element={<VulnerabilityManagement />} />
           <Route path="/services/incident-readiness" element={<IncidentReadiness />} />
+        <Route path="/services/cybersecurity-consulting" element={<CybersecurityConsulting />} />
         <Route path="*" element={<HomePage />} />
       </Routes>
     </BrowserRouter>
